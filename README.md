@@ -3,7 +3,7 @@
 In this project, I will learn the basics of threading a process. I will learn how to create threads and explore the use of mutexes
 
 ## Notions
-
+---
 ### C'est quoi un CPU ?
 ---
 Le CPU (Central Processing Unit) est un **composant materiel** qui permet d'**exécuter des instructions machine**
@@ -161,3 +161,59 @@ quand `f` se termine → `x` disparaît
 👉 Chaque thread a **sa propre stack**
 
 👉 Deux threads n’ont **jamais la même stack**
+
+---
+### C'est quoi un mutex ?
+---
+
+Un mutex est un objet de **synchronisation** fourni par le système qui permet de **garantir qu’un seul thread à la fois** exécute une section de code donnée.
+
+Un `pthread_mutex_t` est :
+
+- une structure de données
+
+- partagée entre threads
+
+- gérée en partie en user-space, en partie par le kernel
+
+Il contient (conceptuellement) :
+
+- un état : **libre / verrouillé**
+
+- l’identité du thread propriétaire
+
+- éventuellement une **file d’attente** de threads bloqués
+
+### En pratique
+
+Quand un thread appelle :
+
+```c
+pthread_mutex_lock(&m);
+```
+
+Il se passe exactement l’un des deux cas suivants :
+
+#### Cas 1 - Mutex libre
+
+- le thread **prend le mutex**
+
+- **continue** immédiatement
+
+#### Cas 2 - Mutex déjà pris
+
+- le thread est **bloqué par le kernel**
+
+- il n’exécute plus **aucune instruction**
+
+- il **attend** que le mutex soit **libéré**
+
+Quand un thread libere un mutex :
+
+```c
+pthread_mutex_unlock(&m);
+```
+
+- le mutex est **libéré**
+
+- un thread bloqué est **réveillé** (si présent)
