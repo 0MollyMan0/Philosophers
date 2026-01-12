@@ -6,27 +6,27 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 10:47:51 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/12 11:06:34 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/12 14:18:00 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void	*routine(void *arg)
 {
-	int id = *(int *)arg;
-	printf("Hello from thread %d\n", id);
-	return (NULL);
+	(void)arg;
+	return ((void *)42);
 }
 
 int main(int ac, char **av)
 {
 	int n;
 	int i;
+	void *res;
 	pthread_t *threads;
-	int *ids;
 	
 	if (ac != 2)
 		return (1);
@@ -34,23 +34,17 @@ int main(int ac, char **av)
 	threads = malloc(sizeof(pthread_t) * n);
 	if (!threads)
 		return (1);
-	ids = malloc(sizeof(int) * n);
-	if (!ids)
-	{
-		free(threads);
-		return (1);	
-	}
 	i = 0;
 	while (i < n)
 	{
-		ids[i] = i;
-		pthread_create(&threads[i], NULL, routine, &ids[i]);
+		pthread_create(&threads[i], NULL, routine, NULL);
 		i++;
 	}
 	i = 0;
 	while (i < n)
 	{
-		pthread_join(threads[i], NULL);
+		pthread_join(threads[i], &res);
+		printf("Returned value of Thread %d: %ld\n", i, (long)res);
 		i++;
 	}
 	return (0);
