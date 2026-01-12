@@ -217,3 +217,13 @@ pthread_mutex_unlock(&m);
 - le mutex est **libéré**
 
 - un thread bloqué est **réveillé** (si présent)
+
+---
+### C'est quoi l'atomicité ?
+---
+
+"`L'atomicité est une propriété utilisée en programmation concurrente pour désigner une opération ou un ensemble d'opérations d'un programme qui s'exécutent entièrement sans pouvoir être interrompues avant la fin de leur déroulement. Une opération qui vérifie cette propriété est qualifiée d'« atomique », (...)`"
+
+Source: [Atomicité (informatique) - Wikipedia](https://fr.wikipedia.org/wiki/Atomicit%C3%A9_(informatique))
+
+Une opération atomique peut aussi l'être si des mécanismes de synchronisation protégés par une exclusion mutuelle sont mis en place.
