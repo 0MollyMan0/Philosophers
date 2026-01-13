@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 10:47:51 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/13 10:46:21 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:23:51 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,43 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-pthread_mutex_t	m1 = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t	m2 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t	m = PTHREAD_MUTEX_INITIALIZER;
 
-void	*thread1(void *arg)
+void	*thread_a(void *arg)
 {
 	(void)arg;
-	pthread_mutex_lock(&m1);
-	printf("Thread 1 locked m1\n");
-	pthread_mutex_lock(&m2);
-	printf("Thread 1 locked m2\n");
-	pthread_mutex_unlock(&m2);
-	printf("Thread 1 unlocked m2\n");
-	pthread_mutex_unlock(&m1);
-	printf("Thread 1 unlocked m1\n");
+	while (1)
+	{
+		pthread_mutex_lock(&m);
+		printf(".");
+		usleep(1000);
+		pthread_mutex_unlock(&m);
+	}
 	return NULL;
 }
 
-void	*thread2(void *arg)
+void	*thread_b(void *arg)
 {
 	(void)arg;
-	pthread_mutex_lock(&m1);
-	printf("Thread 2 locked m1\n");
-	pthread_mutex_lock(&m2);
-	printf("Thread 2 locked m2\n");
-	pthread_mutex_unlock(&m2);
-	printf("Thread 2 unlocked m2\n");
-	pthread_mutex_unlock(&m1);
-	printf("Thread 2 unlocked m1\n");
+	while (1)
+	{
+		pthread_mutex_lock(&m);
+		printf("\nThread b got the mutex\n");
+		pthread_mutex_unlock(&m);
+		usleep(100000);
+	}
 	return NULL;
 }
 
 int	main(void)
 {
-	pthread_t	t1, t2;
+	pthread_t	t_a, t_b;
 
-	pthread_create(&t1, NULL, thread1, NULL);
-	pthread_create(&t2, NULL, thread2, NULL);
+	pthread_create(&t_a, NULL, thread_a, NULL);
+	pthread_create(&t_b, NULL, thread_b, NULL);
 
-	pthread_join(t1, NULL);
-	pthread_join(t2, NULL);
+	pthread_join(t_a, NULL);
+	pthread_join(t_b, NULL);
 	return 0;
 }
 
