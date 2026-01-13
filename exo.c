@@ -6,53 +6,45 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 10:47:51 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/13 11:27:14 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:49:53 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
+#include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-pthread_mutex_t	m = PTHREAD_MUTEX_INITIALIZER;
+// typedef struct timeval {
+// 	time_t		tv_sec;
+// 	suseconds_t	tv_usec;
+// }	timeval;
 
-void	*thread_a(void *arg)
+int	main(int ac, char **av)
 {
-	(void)arg;
-	while (1)
+	struct timeval	*tv;
+	int			tmp_sec;
+	int			tmp_usec;
+	int			n;
+	int			i;
+	
+	if (ac != 2)
+		return (1);
+	tv = malloc(sizeof(struct timeval));
+	n = atoi(av[1]);
+	i = 0;
+	gettimeofday(tv, NULL);
+	tmp_sec = tv->tv_sec;
+	tmp_usec = tv->tv_usec;
+	while (i < n)
 	{
-		pthread_mutex_lock(&m);
-		printf(".");
+		gettimeofday(tv, NULL);
+		printf("sec = %ld | milsec = %ld | dif sec = %ld | dif milsec = %ld\n", tv->tv_sec, tv->tv_usec, tv->tv_sec - tmp_sec, tv->tv_usec - tmp_usec);
+		tmp_sec = tv->tv_sec;
+		tmp_usec = tv->tv_usec;
 		usleep(1000);
-		pthread_mutex_unlock(&m);
-		usleep(100);
+		i++;
 	}
-	return NULL;
-}
-
-void	*thread_b(void *arg)
-{
-	(void)arg;
-	while (1)
-	{
-		pthread_mutex_lock(&m);
-		printf("\nThread b got the mutex\n");
-		pthread_mutex_unlock(&m);
-		usleep(100000);
-	}
-	return NULL;
-}
-
-int	main(void)
-{
-	pthread_t	t_a, t_b;
-
-	pthread_create(&t_a, NULL, thread_a, NULL);
-	pthread_create(&t_b, NULL, thread_b, NULL);
-
-	pthread_join(t_a, NULL);
-	pthread_join(t_b, NULL);
-	return 0;
+	return (0);
 }
 
