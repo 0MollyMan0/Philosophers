@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 10:47:51 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/13 10:27:20 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/13 10:29:43 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,57 +15,40 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-typedef struct s_data
-{
-	int counter;
-	pthread_mutex_t mutex;
-} t_data;
+pthread_mutex_t	m1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t	m2 = PTHREAD_MUTEX_INITIALIZER;
 
-void	*routine(void *arg)
+void	*thread1(void *arg)
 {
-	t_data	*data = (t_data *)arg;
-	pthread_mutex_lock(&data->mutex);
-	usleep(1);
-	data->counter++;
-	pthread_mutex_unlock(&data->mutex);
-	return (NULL);
+	(void)arg;
+	pthread_mutex_lock(&m1);
+	printf("Thread 1 locked m1\n");
+	usleep(1000);
+	pthread_mutex_lock(&m2);
+	printf("Thread 1 locked m2\n");
+	return NULL;
 }
 
-int main(int ac, char **av)
+void	*thread2(void *arg)
 {
-	int n;
-	int i;
-	pthread_t *threads;
-	t_data	*data;
-
-	if (ac != 2)
-		return (1);
-	n = atoi(av[1]);
-
-	threads = malloc(sizeof(pthread_t) * n);
-	if (!threads)
-		return (1);
-
-	data = malloc(sizeof(t_data));
-	if (!data)
-	{
-		free(threads);
-		return (1);
-	}
-	data->counter = 0;
-	pthread_mutex_init(&data->mutex, NULL);
-
-	i = 0;
-	while (i < n)
-		pthread_create(&threads[i++], NULL, routine, data);
-
-	i = 0;
-	while (i < n)
-		pthread_join(threads[i++], NULL);
-
-	printf("counter = %d", data->counter);
-	free(threads);
-	pthread_mutex_destroy(&data->mutex);
-	free(data);
-	return (0);
+	(void)arg;
+	pthread_mutex_lock(&m2);
+	printf("Thread 2 locked m2\n");
+	usleep(1000);
+	pthread_mutex_lock(&m1);
+	printf("Thread 2 locked m1\n");
+	return NULL;
 }
+
+int	main(void)
+{
+	pthread_t	t1, t2;
+
+	pthread_create(&t1, NULL, thread1, NULL);
+	pthread_create(&t2, NULL, thread2, NULL);
+
+	pthread_join(t1, NULL);
+	pthread_join(t2, NULL);
+	return 0;
+}
+
