@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 10:47:51 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/13 11:23:51 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:27:14 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	*thread_a(void *arg)
 		printf(".");
 		usleep(1000);
 		pthread_mutex_unlock(&m);
+		usleep(100);
 	}
 	return NULL;
 }
