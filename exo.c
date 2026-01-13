@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 10:47:51 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/13 10:29:43 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/13 10:46:21 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,26 @@ void	*thread1(void *arg)
 	(void)arg;
 	pthread_mutex_lock(&m1);
 	printf("Thread 1 locked m1\n");
-	usleep(1000);
 	pthread_mutex_lock(&m2);
 	printf("Thread 1 locked m2\n");
+	pthread_mutex_unlock(&m2);
+	printf("Thread 1 unlocked m2\n");
+	pthread_mutex_unlock(&m1);
+	printf("Thread 1 unlocked m1\n");
 	return NULL;
 }
 
 void	*thread2(void *arg)
 {
 	(void)arg;
-	pthread_mutex_lock(&m2);
-	printf("Thread 2 locked m2\n");
-	usleep(1000);
 	pthread_mutex_lock(&m1);
 	printf("Thread 2 locked m1\n");
+	pthread_mutex_lock(&m2);
+	printf("Thread 2 locked m2\n");
+	pthread_mutex_unlock(&m2);
+	printf("Thread 2 unlocked m2\n");
+	pthread_mutex_unlock(&m1);
+	printf("Thread 2 unlocked m1\n");
 	return NULL;
 }
 
