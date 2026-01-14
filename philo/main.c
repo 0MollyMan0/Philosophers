@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/14 10:25:03 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/14 11:29:45 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ int main(int ac, char **av)
 {
 	if (!verif_arg(ac, av))
 		return (1);
-	printf("%s", "all good");
+	printf("%s", "all good\n");
 	return (0);
 }
