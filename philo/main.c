@@ -6,20 +6,16 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/14 09:56:10 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/14 10:25:03 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include "philo.h"
 
 int main(int ac, char **av)
 {
-	if (verif_arg(ac, av))
-	{
-		/* code */
-	}
-	
-	
-	
-	return 0;
+	if (!verif_arg(ac, av))
+		return (1);
+	printf("%s", "all good");
+	return (0);
 }

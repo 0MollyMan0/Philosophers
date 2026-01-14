@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/14 09:39:22 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/14 10:18:26 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_data
 	long must_eat;
 } t_data;
 
-
+// --- Parsing --- //
+int	verif_arg(int ac, char **av);
 
 #endif
