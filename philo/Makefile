@@ -33,6 +33,8 @@ WHITE       = \033[0;37m
 # ----------------------------------
 SRC = main.c \
 	$(SRC_DIR)/verif_arg.c \
+	$(SRC_DIR)/ft_atol.c \
+	$(SRC_DIR)/init.c \
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
