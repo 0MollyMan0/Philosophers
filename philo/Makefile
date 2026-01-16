@@ -35,6 +35,7 @@ SRC = main.c \
 	$(SRC_DIR)/verif_arg.c \
 	$(SRC_DIR)/ft_atol.c \
 	$(SRC_DIR)/init.c \
+	$(SRC_DIR)/routine.c \
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
