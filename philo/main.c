@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/16 08:41:54 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/16 11:56:46 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,20 @@ int main(int ac, char **av)
 {
 	t_data	*data;
 	pthread_t *threads;
-	int *ids;
+	t_philo		*philo;
+	int	i;
 	
 	if (!verif_arg(ac, av))
 		return (1);
 	data = malloc(sizeof(t_data));
 	init_data(data, ac, av);
 	print_data(data); // Delete when project done
-	init_threads(threads, ids, data->nb_philo);
-	
+	threads = malloc(sizeof(pthread_t) * data->nb_philo);
+	if (!threads)
+		return ;
+	philo = malloc(sizeof(t_philo) * data->nb_philo);
+	if (!philo)
+		return ;
+	init_threads(&threads, &philo, data->nb_philo);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/16 08:41:38 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/16 12:00:09 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,24 @@ void	init_data(t_data *data, int ac, char **av)
 	if (ac == 6)
 		data->must_eat = atol(av[5]);
 	else
-		data->must_eat = -1;	
+		data->must_eat = -1;
 }
 
-void	init_threads(pthread_t *threads, int *ids, int n)
+void	init_threads(pthread_t **threads, t_philo **philo, int n)
 {
 	int	i;
-	
-	threads = malloc(sizeof(pthread_t) * n);
-	if (!threads)
-		return ;
-	ids = malloc(sizeof(int) * n);
-	if (!ids)
+
+	i = 0;
+	while (i < n)
 	{
-		free(threads);
-		return ;	
+		philo[i]->id = i;
+		pthread_create(threads[i], NULL, routine, philo[i]);
+		i++;
 	}
 	i = 0;
 	while (i < n)
 	{
-		ids[i] = i;
-		pthread_create(&threads[i], NULL, routine, &ids[i]);
+		pthread_join(threads[i], NULL);
 		i++;
 	}
 }
