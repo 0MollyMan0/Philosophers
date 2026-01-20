@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/20 11:31:43 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:38:59 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ long	ft_atol(char *s);
 
 // --- Utils --- //
 void	clean_exit(t_data *data, pthread_t *threads, t_philo *philos);
+
+// --- Time --- //
+long	timestamp_ms(void);
+void	precise_sleep(long ms);
 
 // --- Init --- //
 void	init_data(t_data *data, int ac, char **av);
