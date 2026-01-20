@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:05:19 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/20 10:26:58 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/20 11:05:46 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 void	clean_exit(t_data *data, pthread_t *threads, t_philo *philo)
 {
-	pthread_mutex_destroy(&data->print_mutex);
-	free(data);
+	long	i;
+
+	i = 0;
+	if (data)
+	{
+		if (data->fork_mutex)
+			free(data->fork_mutex);
+		pthread_mutex_destroy(&data->print_mutex);
+		free(data);
+	}
 	if (threads)
 		free(threads);
 	if (philo)

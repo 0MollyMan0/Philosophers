@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/20 10:22:00 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/20 10:40:52 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_philo
 	long		last_meal;
 	long		nb_meal;
 	t_data		*data;
-	pthread_t	*thread;
 }				t_philo;
 
 // --- Parsing --- //
