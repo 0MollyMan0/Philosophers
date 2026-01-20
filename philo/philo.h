@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/16 10:38:14 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/20 10:02:09 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@
 
 typedef struct s_data
 {
-	long	nb_philo;
-	long	time_sleep;
-	long	time_die;
-	long	time_eat;
-	long	must_eat;
-	long	end;
+	long			nb_philo;
+	long			time_sleep;
+	long			time_die;
+	long			time_eat;
+	long			must_eat;
+	long			is_running;
 	pthread_mutex_t	*fork_mutex;
+	pthread_mutex_t	print_mutex;
 } t_data;
 
 typedef struct s_philo
@@ -36,6 +37,8 @@ typedef struct s_philo
 	int		id;
 	long	last_meal;
 	long	nb_meal;
+	t_data	*data;
+	pthread_t *thread;
 } t_philo;
 
 // --- Parsing --- //
@@ -44,7 +47,7 @@ long	ft_atol(char *s);
 
 // --- Init --- //
 void	init_data(t_data *data, int ac, char **av);
-void	init_threads(pthread_t **threads, t_philo **philo, int n);
+void	init_philos(pthread_t *threads, t_philo *philo, t_data *data);
 
 // --- Problem --- //
 void	*routine(void *arg);
