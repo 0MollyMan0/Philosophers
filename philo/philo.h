@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/20 10:02:09 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/20 10:22:00 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,19 @@ typedef struct s_data
 
 typedef struct s_philo
 {
-	int		id;
-	long	last_meal;
-	long	nb_meal;
-	t_data	*data;
-	pthread_t *thread;
-} t_philo;
+	long		id;
+	long		last_meal;
+	long		nb_meal;
+	t_data		*data;
+	pthread_t	*thread;
+}				t_philo;
 
 // --- Parsing --- //
 int		verif_arg(int ac, char **av);
 long	ft_atol(char *s);
+
+// --- Utils --- //
+void	clean_exit(t_data *data, pthread_t *threads, t_philo *philos);
 
 // --- Init --- //
 void	init_data(t_data *data, int ac, char **av);
