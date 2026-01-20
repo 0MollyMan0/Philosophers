@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/20 10:52:13 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/20 11:33:36 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ void	init_philos(pthread_t *threads, t_philo *philo, t_data *data)
 		philo[i].id = i;
 		philo[i].data = data;
 		philo[i].nb_meal = 0;
+		philo[i].fork_l = &data->fork_mutex[i];
+		if (i+1 == data->nb_philo)
+			philo[i].fork_r = &data->fork_mutex[0];
+		else
+			philo[i].fork_r = &data->fork_mutex[i+1];
 		pthread_create(&threads[i], NULL, routine, &philo[i]);
 		i++;
 	}
