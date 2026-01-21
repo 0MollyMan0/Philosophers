@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 07:14:34 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/15 09:33:27 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/21 09:24:55 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+void	print_state(char *s, t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->print_mutex);
+	printf("%ld %ld %s\n", timestamp_ms(), philo->id, s);
+	pthread_mutex_unlock(&philo->data->print_mutex);
+}
 
 long	ft_atol(char *s)
 {

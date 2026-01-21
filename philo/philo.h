@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/21 09:00:57 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/21 09:25:02 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ typedef struct s_philo
 
 // --- Parsing --- //
 int		verif_arg(int ac, char **av);
-long	ft_atol(char *s);
 
 // --- Utils --- //
+long	ft_atol(char *s);
+void	print_state(char *s, t_philo *philo);
 void	clean_exit(t_data *data, pthread_t *threads, t_philo *philos);
 
 // --- Time --- //
