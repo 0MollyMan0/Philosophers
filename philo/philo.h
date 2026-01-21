@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/20 13:38:59 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/21 09:00:57 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	t_data		*data;
 	pthread_mutex_t *fork_l;
 	pthread_mutex_t *fork_r;
+	pthread_mutex_t	meal_mutex;
 }				t_philo;
 
 // --- Parsing --- //
@@ -58,6 +59,7 @@ void	init_data(t_data *data, int ac, char **av);
 void	init_philos(pthread_t *threads, t_philo *philo, t_data *data);
 
 // --- Problem --- //
-void	*routine(void *arg);
+void	*routine_even(void *arg);
+void	*routine_odd(void *arg);
 
 #endif

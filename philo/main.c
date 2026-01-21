@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/20 13:41:31 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/21 08:31:32 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int main(int ac, char **av)
 	if (!data)
 		return (1);
 	data->fork_mutex = malloc(sizeof(pthread_mutex_t) * ft_atol(av[1]));
+	if (!data->fork_mutex)
+		return (1);
 	init_data(data, ac, av);
 	print_data(data); // Delete when project done
 	threads = malloc(sizeof(pthread_t) * data->nb_philo);
