@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 07:14:34 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 10:00:13 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 11:13:20 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	print_state(char *s, t_philo *philo)
 	if (is_run(philo->data))
 	{
 		pthread_mutex_lock(&philo->data->print_mutex);
-		printf("%ld %ld %s\n", timestamp_ms(), philo->id, s);
+		if (is_run(philo->data))
+			printf("%ld %ld %s\n", timestamp_ms(), philo->id, s);
 		pthread_mutex_unlock(&philo->data->print_mutex);
 	}
 }

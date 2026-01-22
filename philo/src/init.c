@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 09:32:26 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 11:38:23 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,5 @@ void	init_monitor(t_data *d, t_philo *p, t_monitor *m, pthread_t *t)
 {
 	m->data = d;
 	m->philo = p;
-	pthread_create(&t[d->nb_philo], NULL, routine_monitor, &m);
+	pthread_create(&t[d->nb_philo], NULL, routine_monitor, m);
 }
