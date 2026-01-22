@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_exit.c                                       :+:      :+:    :+:   */
+/*   join.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 10:05:19 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 09:14:03 by anfouger         ###   ########.fr       */
+/*   Created: 2026/01/22 09:06:21 by anfouger          #+#    #+#             */
+/*   Updated: 2026/01/22 09:21:37 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	clean_exit(t_data *d, pthread_t *t, t_philo *p, t_monitor *m)
+void	join_all(pthread_t *threads, t_data *data)
 {
 	long	i;
-
+	
 	i = 0;
-	if (d)
+	while (i < data->nb_philo + 1)
 	{
-		if (d->fork_mutex)
-			free(d->fork_mutex);
-		pthread_mutex_destroy(&d->print_mutex);
-		free(d);
+		pthread_join(threads[i], NULL);
+		i++;
 	}
-	if (t)
-		free(t);
-	if (p)
-		free(p);
-	if (m)
-		free(m);
 }

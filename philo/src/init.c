@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 08:38:52 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 09:32:26 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,6 @@ void	init_data(t_data *data, int ac, char **av)
 		data->must_eat = -1;
 }
 
-static void	join_philos(pthread_t *threads, t_data *data)
-{
-	long	i;
-	
-	i = 0;
-	while (i < data->nb_philo)
-	{
-		pthread_join(threads[i], NULL);
-		i++;
-	}
-}
-
 void	init_philos(pthread_t *threads, t_philo *philo, t_data *data)
 {
 	int	i;
@@ -64,11 +52,14 @@ void	init_philos(pthread_t *threads, t_philo *philo, t_data *data)
 			philo[i].fork_r = &data->fork_mutex[0];
 		else
 			philo[i].fork_r = &data->fork_mutex[i+1];
-		if (philo[i].id % 2 == 0)
-			pthread_create(&threads[i], NULL, routine_philo, &philo[i]);
-		else
-			pthread_create(&threads[i], NULL, routine_philo, &philo[i]);
+		pthread_create(&threads[i], NULL, routine_philo, &philo[i]);
 		i++;
 	}
-	join_philos(threads, data);
+}
+
+void	init_monitor(t_data *d, t_philo *p, t_monitor *m, pthread_t *t)
+{
+	m->data = d;
+	m->philo = p;
+	pthread_create(&t[d->nb_philo], NULL, routine_monitor, &m);
 }

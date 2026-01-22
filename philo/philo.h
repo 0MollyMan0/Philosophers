@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 08:42:23 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 10:00:30 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ int		verif_arg(int ac, char **av);
 long	ft_atol(char *s);
 int		is_run(t_data *data);
 void	print_state(char *s, t_philo *philo);
-void	clean_exit(t_data *data, pthread_t *threads, t_philo *philos);
+void	print_died(t_philo *philo);
+void	clean_exit(t_data *d, pthread_t *t, t_philo *p, t_monitor *m);
+void	join_all(pthread_t *threads, t_data *data);
+long	get_last_meal(t_philo *philo);
 
 // --- Time --- //
 long	timestamp_ms(void);
@@ -67,6 +70,7 @@ void	precise_sleep(long ms);
 // --- Init --- //
 void	init_data(t_data *data, int ac, char **av);
 void	init_philos(pthread_t *threads, t_philo *philo, t_data *data);
+void	init_monitor(t_data *d, t_philo *p, t_monitor *m, pthread_t *t);
 
 // --- Routine --- //
 void	*routine_philo(void *arg);
