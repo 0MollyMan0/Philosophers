@@ -6,11 +6,26 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 07:14:34 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/21 09:24:55 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 07:56:14 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+int		is_run(t_data *data)
+{
+	pthread_mutex_lock(&data->run_mutex);
+	if (data->is_running)
+	{
+		pthread_mutex_unlock(&data->run_mutex);
+		return (1);
+	}
+	else
+	{
+		pthread_mutex_unlock(&data->run_mutex);
+		return (0);
+	}
+}
 
 void	print_state(char *s, t_philo *philo)
 {

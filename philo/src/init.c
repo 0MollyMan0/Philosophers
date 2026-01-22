@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/21 09:09:39 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 08:08:30 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_data(t_data *data, int ac, char **av)
 		pthread_mutex_init(&data->fork_mutex[i], NULL);	
 		i++;
 	}
+	pthread_mutex_init(&data->run_mutex, NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
 	if (ac == 6)
 		data->must_eat = atol(av[5]);
@@ -55,7 +56,8 @@ void	init_philos(pthread_t *threads, t_philo *philo, t_data *data)
 	{
 		philo[i].id = i;
 		philo[i].data = data;
-		philo[i].nb_meal = 0;
+		if (data->must_eat == -1)
+			philo[i].nb_meal = -2;
 		philo[i].last_meal = timestamp_ms();
 		pthread_mutex_init(&philo[i].meal_mutex, NULL);
 		philo[i].fork_l = &data->fork_mutex[i];
@@ -64,9 +66,9 @@ void	init_philos(pthread_t *threads, t_philo *philo, t_data *data)
 		else
 			philo[i].fork_r = &data->fork_mutex[i+1];
 		if (philo[i].id % 2 == 0)
-			pthread_create(&threads[i], NULL, routine_even, &philo[i]);
+			pthread_create(&threads[i], NULL, routine_philo, &philo[i]);
 		else
-			pthread_create(&threads[i], NULL, routine_odd, &philo[i]);
+			pthread_create(&threads[i], NULL, routine_philo, &philo[i]);
 		i++;
 	}
 	join_philos(threads, data);

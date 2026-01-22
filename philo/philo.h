@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/21 09:25:02 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/21 09:56:01 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	long			is_running;
 	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t run_mutex;
 } t_data;
 
 typedef struct s_philo
@@ -48,6 +49,7 @@ int		verif_arg(int ac, char **av);
 
 // --- Utils --- //
 long	ft_atol(char *s);
+int		is_run(t_data *data);
 void	print_state(char *s, t_philo *philo);
 void	clean_exit(t_data *data, pthread_t *threads, t_philo *philos);
 
@@ -59,8 +61,9 @@ void	precise_sleep(long ms);
 void	init_data(t_data *data, int ac, char **av);
 void	init_philos(pthread_t *threads, t_philo *philo, t_data *data);
 
-// --- Problem --- //
-void	*routine_even(void *arg);
-void	*routine_odd(void *arg);
+// --- Routine --- //
+void	*routine_philo(void *arg);
+void	*routine_even(t_philo *philo);
+void	*routine_odd(t_philo *philo);
 
 #endif
