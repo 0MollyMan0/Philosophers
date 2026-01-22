@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 08:39:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 10:06:50 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 13:36:58 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*routine_monitor(void *arg)
 				moni->data->is_running = 0;
 				pthread_mutex_unlock(&moni->data->run_mutex);
 				print_died(&moni->philo[i]);
-				break;
+				break ;
 			}
 			i++;
 		}
@@ -72,12 +72,12 @@ static void	routine_even(t_philo *philo)
 
 void	*routine_philo(void *arg)
 {
-	t_philo *philo;
-	
+	t_philo	*philo;
+
 	philo = (t_philo *)arg;
-	while (is_run(philo->data) 
-		&& (philo->nb_meal < philo->data->must_eat 
-		|| philo->data->must_eat == -1))
+	while (is_run(philo->data)
+		&& (philo->nb_meal < philo->data->must_eat
+			|| philo->data->must_eat == -1))
 	{
 		print_state("is thinking", philo);
 		if (philo->id % 2 == 0)

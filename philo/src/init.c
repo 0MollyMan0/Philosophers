@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 11:38:23 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:06:34 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,15 @@ void	init_monitor(t_data *d, t_philo *p, t_monitor *m, pthread_t *t)
 	m->data = d;
 	m->philo = p;
 	pthread_create(&t[d->nb_philo], NULL, routine_monitor, m);
+}
+
+void	init_memory(t_data *d, pthread_t *t, t_philo *p, t_monitor *m)
+{
+	d = malloc(sizeof(t_data));
+	t = malloc(sizeof(pthread_t) * (d->nb_philo + 1));
+	p = malloc(sizeof(t_philo) * d->nb_philo);
+	m = malloc(sizeof(t_monitor));
+	if (!t || !p || !m || !d)
+		clean_exit(d, t, p, m);
+	return ;
 }

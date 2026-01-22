@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 10:00:30 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:06:42 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,25 @@ typedef struct s_data
 	long			is_running;
 	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t run_mutex;
-} t_data;
+	pthread_mutex_t	run_mutex;
+}	t_data;
 
 typedef struct s_philo
 {
-	long		id;
-	long		last_meal;
-	long		nb_meal;
-	t_data		*data;
-	pthread_mutex_t *fork_l;
-	pthread_mutex_t *fork_r;
+	long			id;
+	long			last_meal;
+	long			nb_meal;
+	t_data			*data;
+	pthread_mutex_t	*fork_l;
+	pthread_mutex_t	*fork_r;
 	pthread_mutex_t	meal_mutex;
-}				t_philo;
+}	t_philo;
 
 typedef struct s_monitor
 {
 	t_data		*data;
 	t_philo		*philo;
 }				t_monitor;
-
 
 // --- Parsing --- //
 int		verif_arg(int ac, char **av);
@@ -71,6 +70,7 @@ void	precise_sleep(long ms);
 void	init_data(t_data *data, int ac, char **av);
 void	init_philos(pthread_t *threads, t_philo *philo, t_data *data);
 void	init_monitor(t_data *d, t_philo *p, t_monitor *m, pthread_t *t);
+void	init_memory(t_data *d, pthread_t *t, t_philo *p, t_monitor *m);
 
 // --- Routine --- //
 void	*routine_philo(void *arg);
