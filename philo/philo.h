@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/21 09:56:01 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 08:19:28 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ typedef struct s_philo
 	pthread_mutex_t *fork_r;
 	pthread_mutex_t	meal_mutex;
 }				t_philo;
+
+typedef struct s_monitor
+{
+	t_data		*data;
+	t_philo		*philo;
+}				t_monitor;
+
 
 // --- Parsing --- //
 int		verif_arg(int ac, char **av);

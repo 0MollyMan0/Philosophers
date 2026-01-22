@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 08:08:30 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 08:38:52 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ void	init_philos(pthread_t *threads, t_philo *philo, t_data *data)
 	{
 		philo[i].id = i;
 		philo[i].data = data;
-		if (data->must_eat == -1)
-			philo[i].nb_meal = -2;
+		philo[i].nb_meal = 0;
 		philo[i].last_meal = timestamp_ms();
 		pthread_mutex_init(&philo[i].meal_mutex, NULL);
 		philo[i].fork_l = &data->fork_mutex[i];

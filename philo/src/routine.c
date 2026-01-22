@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 08:39:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 08:08:36 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 08:39:58 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	*routine_philo(void *arg)
 	t_philo *philo;
 	
 	philo = (t_philo *)arg;
-	while (philo->nb_meal < philo->data->must_eat)
+	while (is_run(philo->data) 
+		&& (philo->nb_meal < philo->data->must_eat 
+		|| philo->data->must_eat == -1))
 	{
-		if (!is_run(philo->data))
-			break;
 		print_state("is thinking", philo);
 		if (philo->id % 2 == 0)
 			routine_even(philo);
@@ -40,8 +40,7 @@ void	*routine_odd(t_philo *philo)
 	pthread_mutex_lock(&philo->meal_mutex);
 	print_state("is eating", philo);
 	philo->last_meal = timestamp_ms();
-	if (philo->nb_meal != -2)
-		philo->nb_meal++;
+	philo->nb_meal++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	precise_sleep(philo->data->time_eat);
 	pthread_mutex_unlock(philo->fork_l);
@@ -57,8 +56,7 @@ void	*routine_even(t_philo *philo)
 	pthread_mutex_lock(&philo->meal_mutex);
 	print_state("is eating", philo);
 	philo->last_meal = timestamp_ms();
-	if (philo->nb_meal != -2)
-		philo->nb_meal++;
+	philo->nb_meal++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	precise_sleep(philo->data->time_eat);
 	pthread_mutex_unlock(philo->fork_r);
