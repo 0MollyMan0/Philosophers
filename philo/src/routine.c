@@ -6,11 +6,31 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 08:39:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 08:39:58 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 08:51:23 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+void	*routine_monitor(void *arg)
+{
+	long		i;
+	t_monitor	*moni;
+
+	moni = (t_monitor *)arg;
+	i = 0;
+	while (i < moni->data->nb_philo)
+	{
+		if (timestamp_ms() - moni->philo[i].last_meal > moni->data->time_die)
+		{
+			pthread_mutex_lock(&moni->data->run_mutex);
+			moni->data->is_running = 0;
+			pthread_mutex_unlock(&moni->data->run_mutex);
+		}
+		i++;
+	}
+	
+}
 
 void	*routine_philo(void *arg)
 {
@@ -32,7 +52,7 @@ void	*routine_philo(void *arg)
 	return (NULL);
 }
 
-void	*routine_odd(t_philo *philo)
+static void	routine_odd(t_philo *philo)
 {
 	pthread_mutex_lock(philo->fork_r);
 	print_state("has taken a fork", philo);
@@ -45,10 +65,9 @@ void	*routine_odd(t_philo *philo)
 	precise_sleep(philo->data->time_eat);
 	pthread_mutex_unlock(philo->fork_l);
 	pthread_mutex_unlock(philo->fork_r);
-	return (NULL);
 }
 
-void	*routine_even(t_philo *philo)
+static void	routine_even(t_philo *philo)
 {
 	pthread_mutex_lock(philo->fork_l);
 	print_state("has taken a fork", philo);
@@ -61,5 +80,4 @@ void	*routine_even(t_philo *philo)
 	precise_sleep(philo->data->time_eat);
 	pthread_mutex_unlock(philo->fork_r);
 	pthread_mutex_unlock(philo->fork_l);
-	return (NULL);
 }

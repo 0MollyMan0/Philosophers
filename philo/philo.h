@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 08:19:28 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 08:42:23 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	init_philos(pthread_t *threads, t_philo *philo, t_data *data);
 
 // --- Routine --- //
 void	*routine_philo(void *arg);
-void	*routine_even(t_philo *philo);
-void	*routine_odd(t_philo *philo);
+void	*routine_monitor(void *arg);
 
 #endif

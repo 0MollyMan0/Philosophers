@@ -6,21 +6,11 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/21 08:31:32 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/22 08:42:10 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// Delete when project done
-static void	print_data(t_data *data)
-{
-	printf("number of philosophers = %ld\n", data->nb_philo);
-	printf("time to die = %ld\n", data->time_die);
-	printf("time to eat = %ld\n", data->time_eat);
-	printf("time to sleep = %ld\n", data->time_sleep);
-	printf("number of times philosophers must eat = %ld\n", data->must_eat);
-}
 
 int main(int ac, char **av)
 {
@@ -38,7 +28,6 @@ int main(int ac, char **av)
 	if (!data->fork_mutex)
 		return (1);
 	init_data(data, ac, av);
-	print_data(data); // Delete when project done
 	threads = malloc(sizeof(pthread_t) * data->nb_philo);
 	philo = malloc(sizeof(t_philo) * data->nb_philo);
 	if (!threads || !philo)
