@@ -6,30 +6,15 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 07:14:34 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/23 10:46:55 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:49:10 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-int	is_run(t_data *data)
-{
-	pthread_mutex_lock(&data->run_mutex);
-	if (data->is_running)
-	{
-		pthread_mutex_unlock(&data->run_mutex);
-		return (1);
-	}
-	else
-	{
-		pthread_mutex_unlock(&data->run_mutex);
-		return (0);
-	}
-}
-
 void	print_state(char *s, t_philo *philo)
 {
-	if (is_run(philo->data))
+	if (is_run(philo->data) && !is_philo_full(philo, philo->data))
 	{
 		pthread_mutex_lock(&philo->data->print_mutex);
 		if (is_run(philo->data))

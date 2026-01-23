@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/23 11:07:52 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:52:09 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_philo
 	pthread_mutex_t	*fork_l;
 	pthread_mutex_t	*fork_r;
 	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	nb_meal_mutex;
 }	t_philo;
 
 typedef struct s_monitor
@@ -55,10 +56,8 @@ int		verif_arg(int ac, char **av);
 
 // --- Utils --- //
 long	ft_atol(char *s);
-int		is_run(t_data *data);
 void	print_state(char *s, t_philo *philo);
 void	print_died(t_philo *philo);
-void	clean_exit(t_data *d, pthread_t *t, t_philo *p, t_monitor *m);
 void	join_all(pthread_t *threads, t_data *data);
 long	get_last_meal(t_philo *philo);
 
@@ -75,5 +74,11 @@ int		init_memory(t_data **d, pthread_t **t, t_philo **p, char **av);
 // --- Routine --- //
 void	*routine_philo(void *arg);
 void	*routine_monitor(void *arg);
+
+// --- End --- //
+void	clean_exit(t_data *d, pthread_t *t, t_philo *p, t_monitor *m);
+int		is_run(t_data *data);
+int		is_philo_full(t_philo *philo, t_data *data);
+int		is_philos_full(t_philo *philo, t_data *data);
 
 #endif

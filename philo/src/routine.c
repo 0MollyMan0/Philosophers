@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 08:39:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/23 10:56:43 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:06:27 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ void	*routine_monitor(void *arg)
 	t_monitor	*moni;
 
 	moni = (t_monitor *)arg;
-	while (is_run(moni->data))
+	while (!is_philos_full(moni->philo, moni->data) && is_run(moni->data))
 	{
 		i = 0;
 		while (i < moni->data->nb_philo)
 		{
 			last = get_last_meal(&moni->philo[i]);
-			if (timestamp_ms() - last > moni->data->time_die)
+			if (timestamp_ms() - last > moni->data->time_die
+				&& !is_philo_full(&moni->philo[i], moni->data))
 			{
 				pthread_mutex_lock(&moni->data->run_mutex);
 				moni->data->is_running = 0;
@@ -75,9 +76,7 @@ void	*routine_philo(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (is_run(philo->data)
-		&& (philo->nb_meal < philo->data->must_eat
-			|| philo->data->must_eat == -1))
+	while (is_run(philo->data))
 	{
 		print_state("is thinking", philo);
 		if (philo->id % 2 == 0)
