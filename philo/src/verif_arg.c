@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 13:10:03 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/15 09:37:25 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/23 10:44:37 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	verif_number(char *s)
 	while (s[i])
 	{
 		if (!(s[i] >= '0' && s[i] <= '9'))
-			return (0);	
+			return (0);
 		i++;
 	}
 	return (1);
@@ -49,8 +49,8 @@ static int	verif_number(char *s)
 
 int	verif_arg(int ac, char **av)
 {
-	int i;
-	
+	int	i;
+
 	if (!(ac >= 5 && ac <= 6))
 		return (0);
 	i = 1;

@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 09:06:21 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 09:21:37 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/23 10:47:44 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	join_all(pthread_t *threads, t_data *data)
 {
 	long	i;
-	
+
 	i = 0;
 	while (i < data->nb_philo + 1)
 	{

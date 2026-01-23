@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:29:31 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/20 13:38:48 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/23 10:45:37 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 long	timestamp_ms(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return	(tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void precise_sleep(long ms)
+void	precise_sleep(long ms)
 {
-    long start = timestamp_ms();
+	long	start;
 
-    while (timestamp_ms() - start < ms)
-        usleep(100);
+	start = timestamp_ms();
+	while (timestamp_ms() - start < ms)
+		usleep(100);
 }
