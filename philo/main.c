@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 14:06:18 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:06:05 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ int	main(int ac, char **av)
 
 	if (!verif_arg(ac, av))
 		return (1);
-	init_memory(data, threads, philo, monitor);
+	if (!init_memory(&data, &threads, &philo, av))
+		return (1);
+	monitor = malloc(sizeof(t_monitor));
 	data->fork_mutex = malloc(sizeof(pthread_mutex_t) * ft_atol(av[1]));
-	if (!data->fork_mutex)
+	if (!data->fork_mutex || !monitor)
 	{
 		clean_exit(data, threads, philo, monitor);
 		return (1);

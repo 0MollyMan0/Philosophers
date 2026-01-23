@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/23 10:43:59 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:07:10 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,15 @@ void	init_monitor(t_data *d, t_philo *p, t_monitor *m, pthread_t *t)
 	pthread_create(&t[d->nb_philo], NULL, routine_monitor, m);
 }
 
-void	init_memory(t_data *d, pthread_t *t, t_philo *p, t_monitor *m)
+int	init_memory(t_data **d, pthread_t **t, t_philo **p, char **av)
 {
-	d = malloc(sizeof(t_data));
-	t = malloc(sizeof(pthread_t) * (d->nb_philo + 1));
-	p = malloc(sizeof(t_philo) * d->nb_philo);
-	m = malloc(sizeof(t_monitor));
-	if (!t || !p || !m || !d)
-		clean_exit(d, t, p, m);
-	return ;
+	*d = malloc(sizeof(t_data));
+	*t = malloc(sizeof(pthread_t) * (atol(av[1]) + 1));
+	*p = malloc(sizeof(t_philo) * atol(av[1]));
+	if (!*t || !*p || !*d)
+	{
+		clean_exit(*d, *t, *p, NULL);
+		return (0);
+	}
+	return (1);
 }

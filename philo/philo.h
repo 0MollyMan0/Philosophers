@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/22 14:06:42 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:07:52 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	precise_sleep(long ms);
 void	init_data(t_data *data, int ac, char **av);
 void	init_philos(pthread_t *threads, t_philo *philo, t_data *data);
 void	init_monitor(t_data *d, t_philo *p, t_monitor *m, pthread_t *t);
-void	init_memory(t_data *d, pthread_t *t, t_philo *p, t_monitor *m);
+int		init_memory(t_data **d, pthread_t **t, t_philo **p, char **av);
 
 // --- Routine --- //
 void	*routine_philo(void *arg);
