@@ -1,8 +1,161 @@
+*This project has been created as part of the 42 curriculum by anfouger.*
+
 EN 🇬🇧
 
 # Philosophers
 
 In this project, I will learn the basics of threading a process. I will learn how to create threads and explore the use of mutexes.
+
+## Description
+
+The **Philosophers** project is a concurrency problem based on the classic *Dining Philosophers Problem*.  
+Its goal is to introduce and deepen the understanding of **multithreading**, **synchronization**, and **shared resource management** using **POSIX threads (pthreads)** in C.
+
+In this project, several philosophers sit around a table. Each philosopher alternates between thinking, eating, and sleeping. To eat, a philosopher must hold two forks (shared resources), which introduces potential issues such as **race conditions** and **deadlocks**.
+
+The challenge is to ensure that:
+- No philosopher starves.
+- No deadlock occurs.
+- Shared resources are accessed safely.
+- The simulation stops correctly when a philosopher dies or when all philosophers have eaten a required number of meals.
+
+## Instructions
+
+### Compilation
+
+Compile the program using `make`:
+
+```bash
+make
+```
+
+### Execution
+
+```bash
+./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_meals]
+```
+
+#### Arguments
+
+- `number_of_philosophers`: Number of philosophers and forks.
+
+- `time_to_die`: Time (ms) a philosopher can survive without eating.
+
+- `time_to_eat`: Time (ms) spent eating.
+
+- `time_to_sleep`: Time (ms) spent sleeping.
+
+- `number_of_meals` (optional): Number of meals each philosopher must eat before the simulation ends.
+
+If omitted, the simulation runs until a philosopher dies.
+
+#### Example
+
+```bash
+./philo 5 800 200 200 7
+```
+
+## Technical Choices
+
+### Global Data Structure (`t_data`)
+
+```c
+typedef struct s_data
+{
+	long            nb_philo;
+	long            time_sleep;
+	long            time_die;
+	long            time_eat;
+	long            must_eat;
+	long            is_running;
+	pthread_mutex_t *fork_mutex;
+	pthread_mutex_t print_mutex;
+	pthread_mutex_t run_mutex;
+} t_data;
+```
+
+`t_data` centralizes all shared configuration and state:
+
+- Timing parameters and philosopher count.
+
+- `is_running` acts as a global simulation flag.
+
+- `fork_mutex` is an array of mutexes, one per fork.
+
+- `print_mutex` ensures ordered and readable output.
+
+- `run_mutex` protects access to `is_running`.
+
+This structure is shared by all philosophers and the monitor.
+
+### Philosopher Structure (`t_philo`)
+
+```c
+typedef struct s_philo
+{
+	long            id;
+	long            last_meal;
+	long            nb_meal;
+	t_data          *data;
+	pthread_mutex_t *fork_l;
+	pthread_mutex_t *fork_r;
+	pthread_mutex_t meal_mutex;
+	pthread_mutex_t nb_meal_mutex;
+} t_philo;
+```
+Each philosopher owns:
+
+- Its unique `id`.
+
+- Meal-related state (`last_meal`, `nb_meal`).
+
+- Pointers to its left and right forks.
+
+- A pointer to the shared `t_data`.
+
+Two mutexes protect philosopher-specific data:
+
+- `meal_mutex` guards `last_meal`.
+
+- `nb_meal_mutex` guards `nb_meal`.
+
+This separation avoids unnecessary contention and ensures safe concurrent reads by the monitor.
+
+---
+
+### Monitor Structure (`t_monitor`)
+
+```c
+typedef struct s_monitor
+{
+	t_data  *data;
+	t_philo *philo;
+} t_monitor;
+```
+
+The monitor is a dedicated thread responsible for:
+
+- Detecting philosopher death (time since last meal).
+
+- Stopping the simulation when all philosophers have eaten enough.
+
+- Updating `is_running` in a thread-safe way.
+
+The monitor is the **single authority** that decides when the simulation ends.
+
+---
+
+### Synchronization Strategy
+
+- Forks are protected by mutexes to avoid simultaneous access.
+
+- Output is serialized using `print_mutex`.
+
+- The simulation state (`is_running`) is protected by `run_mutex`.
+
+- Philosophers check `is_running` frequently to stop immediately when required.
+
+- Even and odd philosophers pick up forks in opposite order to prevent deadlocks.
 
 ## Concepts
 ---
@@ -226,15 +379,175 @@ pthread_mutex_unlock(&m);
 
 “Atomicity is a property used in concurrent programming to designate an operation or set of operations in a program that execute entirely without being interrupted before they are completed. An operation that verifies this property is called ”atomic,“ (...)”
 
-Source: [Atomicity (computing) - Wikipedia](https://fr.wikipedia.org/wiki/Atomicit%C3%A9_(informatique))
+Source: [Atomicity (computing) - Wikipedia FR](https://fr.wikipedia.org/wiki/Atomicit%C3%A9_(informatique))
 
 An atomic operation can also be atomic if synchronization mechanisms protected by mutual exclusion are implemented.
+
+## Resources
+
+- [Dining Philosophers Problem - Wikipedia EN](https://en.wikipedia.org/wiki/Dining_philosophers_problem)
+
+- [Deadlock - Wikipedia EN](https://en.wikipedia.org/wiki/Deadlock)
+
+- [Race Condition - Wikipedia EN](https://en.wikipedia.org/wiki/Race_condition)
+
+- [Mutex - Wikipedia EN](https://en.wikipedia.org/wiki/Mutual_exclusion)
 
 FR 🇫🇷
 
 # Philosophers
 
 Dans le cadre de ce projet, j'apprendrai les bases du threading d'un processus. J'apprendrai à créer des threads et j'explorerai l'utilisation des mutex.
+
+## Description
+
+Le projet **Philosophers** est un problème de concurrence basé sur le classique *problème des philosophes qui dînent*.  
+Son objectif est d'introduire et d'approfondir la compréhension du **multithreading**, de la **synchronisation** et de la **gestion des ressources partagées** à l'aide des **threads POSIX (pthreads)** en C.
+
+Dans ce projet, plusieurs philosophes sont assis autour d'une table. Chaque philosophe alterne entre réfléchir, manger et dormir. Pour manger, un philosophe doit tenir deux fourchettes (ressources partagées), ce qui introduit des problèmes potentiels tels que les **conditions de concurrence** et les **blocages**.
+
+Le défi consiste à garantir que :
+- Aucun philosophe ne meurt de faim.
+- Aucun blocage ne se produit.
+- Les ressources partagées sont accessibles en toute sécurité.
+- La simulation s'arrête correctement lorsqu'un philosophe meurt ou lorsque tous les philosophes ont mangé le nombre de repas requis.
+
+## Instructions
+
+### Compilation
+
+Compilez le programme à l'aide de `make` :
+
+```bash
+make
+```
+
+### Exécution
+
+```bash
+./philo nombre_de_philosophes temps_pour_mourir temps_pour_manger temps_pour_dormir [nombre_de_repas]
+```
+
+#### Arguments
+
+- `number_of_philosophers` : nombre de philosophes et de fourchettes.
+
+- `time_to_die` : temps (en ms) pendant lequel un philosophe peut survivre sans manger.
+
+- `time_to_eat` : temps (en ms) passé à manger.
+
+- `temps_pour_dormir` : temps (en ms) passé à dormir.
+
+- `nombre_de_repas` (facultatif) : nombre de repas que chaque philosophe doit manger avant la fin de la simulation.
+
+Si cette option est omise, la simulation se poursuit jusqu'à ce qu'un philosophe meure.
+
+#### Exemple
+
+```bash
+./philo 5 800 200 200 7
+```
+
+## Choix techniques
+
+### Structure de données globale (`t_data`)
+
+```c
+typedef struct s_data
+{
+    long            nb_philo;
+    long            time_sleep;
+    long            time_die;
+    long            time_eat;
+    long            must_eat;
+	long            is_running;
+    pthread_mutex_t *fork_mutex;
+    pthread_mutex_t print_mutex;
+    pthread_mutex_t run_mutex;
+} t_data;
+```
+
+`t_data` centralise toutes les configurations et tous les états partagés :
+
+- Paramètres de synchronisation et nombre de philosophes.
+
+- `is_running` agit comme un indicateur de simulation global.
+
+- `fork_mutex` est un tableau de mutex, un par fork.
+
+- `print_mutex` garantit une sortie ordonnée et lisible.
+
+- `run_mutex` protège l'accès à `is_running`.
+
+Cette structure est partagée par tous les philosophes et le moniteur.
+
+### Structure Philosophe (`t_philo`)
+
+```c
+typedef struct s_philo
+{
+    long            id;
+    long            last_meal;
+    long            nb_meal;
+    t_data          *data;
+    pthread_mutex_t *fork_l;
+    pthread_mutex_t *fork_r;
+	pthread_mutex_t meal_mutex;
+    pthread_mutex_t nb_meal_mutex;
+} t_philo;
+```
+Chaque philosophe possède :
+
+- Son identifiant unique `id`.
+
+- Son état lié au repas (`last_meal`, `nb_meal`).
+
+- Des pointeurs vers ses fourchettes gauche et droite.
+
+- Un pointeur vers le `t_data` partagé.
+
+Deux mutex protègent les données spécifiques au philosophe :
+
+- `meal_mutex` protège `last_meal`.
+
+- `nb_meal_mutex` protège `nb_meal`.
+
+Cette séparation évite les conflits inutiles et garantit la sécurité des lectures simultanées par le moniteur.
+
+---
+
+### Structure du moniteur (`t_monitor`)
+
+```c
+typedef struct s_monitor
+{
+    t_data  *data;
+    t_philo *philo;
+} t_monitor;
+```
+
+Le moniteur est un thread dédié chargé de :
+
+- Détecter la mort d'un philosophe (temps écoulé depuis le dernier repas).
+
+- Arrêter la simulation lorsque tous les philosophes ont suffisamment mangé.
+
+- Mettre à jour `is_running` de manière sécurisée pour les threads.
+
+Le moniteur est la **seule autorité** qui décide quand la simulation se termine.
+
+---
+### Stratégie de synchronisation
+
+- Les fourches sont protégées par des mutex afin d'éviter tout accès simultané.
+
+- La sortie est sérialisée à l'aide de `print_mutex`.
+
+- L'état de la simulation (`is_running`) est protégé par `run_mutex`.
+
+- Les philosophes vérifient fréquemment `is_running` afin de s'arrêter immédiatement si nécessaire.
+
+- Les philosophes pairs et impairs prennent les fourchettes dans un ordre opposé afin d'éviter les blocages.
 
 ## Notions
 ---
@@ -458,6 +771,16 @@ pthread_mutex_unlock(&m);
 
 "`L'atomicité est une propriété utilisée en programmation concurrente pour désigner une opération ou un ensemble d'opérations d'un programme qui s'exécutent entièrement sans pouvoir être interrompues avant la fin de leur déroulement. Une opération qui vérifie cette propriété est qualifiée d'« atomique », (...)`"
 
-Source: [Atomicité (informatique) - Wikipedia](https://fr.wikipedia.org/wiki/Atomicit%C3%A9_(informatique))
+Source: [Atomicité (informatique) - Wikipedia FR](https://fr.wikipedia.org/wiki/Atomicit%C3%A9_(informatique))
 
 Une opération atomique peut aussi l'être si des mécanismes de synchronisation protégés par une exclusion mutuelle sont mis en place.
+
+## Resources
+
+- [Dîner des philosophes - Wikipedia FR](https://fr.wikipedia.org/wiki/D%C3%AEner_des_philosophes)
+
+- [Interblocage (Deadblock)- Wikipedia FR](https://fr.wikipedia.org/wiki/Interblocage)
+
+- [Situation de compétition (Race Condition) - Wikipedia FR](https://fr.wikipedia.org/wiki/Situation_de_comp%C3%A9tition)
+
+- [Exclusion mutuelle- Wikipedia FR](https://fr.wikipedia.org/wiki/Exclusion_mutuelle)
