@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 11:10:30 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/23 12:01:07 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/28 14:07:44 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,14 @@ int	is_philo_full(t_philo *philo, t_data *data)
 	return (full);
 }
 
-
 int	is_philos_full(t_philo *philo, t_data *data)
 {
 	long	i;
 
 	if (data->must_eat == -1)
 		return (0);
-	i = 0;
-	while (i < data->nb_philo)
+	i = 1;
+	while (i <= data->nb_philo)
 	{
 		pthread_mutex_lock(&philo[i].nb_meal_mutex);
 		if (philo[i].nb_meal < data->must_eat)
@@ -64,22 +63,47 @@ int	is_run(t_data *data)
 	}
 }
 
+static void	clean_data(t_data *d)
+{
+	long	i;
+	
+	if (d->fork_mutex)
+	{
+		i = 0;
+		while (i < d->nb_philo)
+		{
+			pthread_mutex_destroy(&d->fork_mutex[i]);
+			i++;
+		}
+		free(d->fork_mutex);
+	}
+	pthread_mutex_destroy(&d->print_mutex);
+	pthread_mutex_destroy(&d->run_mutex);
+	free(d);
+}
+
 void	clean_exit(t_data *d, pthread_t *t, t_philo *p, t_monitor *m)
 {
 	long	i;
+	long	n;
 
-	i = 0;
-	if (d)
+	n = d ? d->nb_philo : 0;
+
+	if (p)
 	{
-		if (d->fork_mutex)
-			free(d->fork_mutex);
-		pthread_mutex_destroy(&d->print_mutex);
-		free(d);
+		i = 0;
+		while (i < n)
+		{
+			pthread_mutex_destroy(&p[i].meal_mutex);
+			pthread_mutex_destroy(&p[i].nb_meal_mutex);
+			i++;
+		}
+		free(p);
 	}
+	if (d)
+		clean_data(d);
 	if (t)
 		free(t);
-	if (p)
-		free(p);
 	if (m)
 		free(m);
 }
