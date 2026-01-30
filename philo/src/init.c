@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/28 15:49:32 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/30 13:55:35 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void	init_philos(pthread_t *threads, t_philo *philo, t_data *data)
 		pthread_mutex_init(&philo[i].meal_mutex, NULL);
 		pthread_mutex_init(&philo[i].nb_meal_mutex, NULL);
 		philo[i].fork_l = &data->fork_mutex[i];
-		philo[i].fork_r = &data->fork_mutex[(i + 1) % data->nb_philo];
+		if (i + 1 == data->nb_philo)
+			philo[i].fork_r = &data->fork_mutex[0];
+		else
+			philo[i].fork_r = &data->fork_mutex[i + 1];	
 		pthread_create(&threads[i], NULL, routine_philo, &philo[i]);
 		i++;
 	}
