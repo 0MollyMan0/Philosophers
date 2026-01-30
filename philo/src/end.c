@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 11:10:30 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/28 14:07:44 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:23:49 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static void	clean_data(t_data *d)
 	}
 	pthread_mutex_destroy(&d->print_mutex);
 	pthread_mutex_destroy(&d->run_mutex);
+	pthread_mutex_destroy(&d->nb_eat_mutex);
 	free(d);
 }
 

@@ -39,6 +39,7 @@ SRC = main.c \
 	$(SRC_DIR)/time.c \
 	$(SRC_DIR)/join.c \
 	$(SRC_DIR)/end.c \
+	$(SRC_DIR)/eat.c \
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 07:14:34 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/23 11:49:10 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:20:56 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,4 @@ long	ft_atol(char *s)
 		i++;
 	}
 	return (result);
-}
-
-long	get_last_meal(t_philo *philo)
-{
-	long	res;
-
-	pthread_mutex_lock(&philo->meal_mutex);
-	res = philo->last_meal;
-	pthread_mutex_unlock(&philo->meal_mutex);
-	return (res);
 }

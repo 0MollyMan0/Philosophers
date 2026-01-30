@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/28 15:21:02 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/30 15:16:16 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ typedef struct s_data
 	long			time_eat;
 	long			must_eat;
 	long			is_running;
+	long			nb_eat;
 	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	run_mutex;
+	pthread_mutex_t	nb_eat_mutex;
 }	t_data;
 
 typedef struct s_philo
@@ -59,7 +61,6 @@ long	ft_atol(char *s);
 void	print_state(char *s, t_philo *philo);
 void	print_died(t_philo *philo);
 void	join_all(pthread_t *threads, t_data *data);
-long	get_last_meal(t_philo *philo);
 
 // --- Time --- //
 long	timestamp_ms(void);
@@ -74,6 +75,11 @@ int		init_memory(t_data **d, pthread_t **t, t_philo **p, char **av);
 // --- Routine --- //
 void	*routine_philo(void *arg);
 void	*routine_monitor(void *arg);
+
+// --- Eat --- //
+long	get_last_meal(t_philo *philo);
+void	done_eating(t_data *data);
+int		can_i_eat(t_data *data);
 
 // --- End --- //
 void	clean_exit(t_data *d, pthread_t *t, t_philo *p, t_monitor *m);

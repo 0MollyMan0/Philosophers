@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/30 13:55:35 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:22:30 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_data(t_data *data, int ac, char **av)
 	data->time_eat = ft_atol(av[3]);
 	data->time_sleep = ft_atol(av[4]);
 	data->is_running = 1;
+	data->nb_eat = 0;
 	while (i < data->nb_philo)
 	{
 		pthread_mutex_init(&data->fork_mutex[i], NULL);
@@ -29,6 +30,7 @@ void	init_data(t_data *data, int ac, char **av)
 	}
 	pthread_mutex_init(&data->run_mutex, NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
+	pthread_mutex_init(&data->nb_eat_mutex, NULL);
 	if (ac == 6)
 		data->must_eat = ft_atol(av[5]);
 	else

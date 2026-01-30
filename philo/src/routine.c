@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 08:39:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/28 15:43:48 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/30 15:15:48 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	*routine_monitor(void *arg)
 
 static void	routine_odd(t_philo *philo)
 {
+	while (!can_i_eat(philo->data))
+		usleep(10);
 	pthread_mutex_lock(philo->fork_r);
 	print_state("has taken a fork", philo);
 	pthread_mutex_lock(philo->fork_l);
@@ -54,10 +56,13 @@ static void	routine_odd(t_philo *philo)
 	precise_sleep(philo->data->time_eat);
 	pthread_mutex_unlock(philo->fork_l);
 	pthread_mutex_unlock(philo->fork_r);
+	done_eating(philo->data);
 }
 
 static void	routine_even(t_philo *philo)
 {
+	while (!can_i_eat(philo->data))
+		usleep(100);
 	pthread_mutex_lock(philo->fork_l);
 	print_state("has taken a fork", philo);
 	pthread_mutex_lock(philo->fork_r);
@@ -69,12 +74,12 @@ static void	routine_even(t_philo *philo)
 	precise_sleep(philo->data->time_eat);
 	pthread_mutex_unlock(philo->fork_r);
 	pthread_mutex_unlock(philo->fork_l);
+	done_eating(philo->data);
 }
 
 void	*routine_philo(void *arg)
 {
 	t_philo	*philo;
-	long	time_left;
 
 	philo = (t_philo *)arg;
 	if (philo->data->nb_philo == 1)
@@ -82,13 +87,10 @@ void	*routine_philo(void *arg)
 		print_state("has taken a fork", philo);
 		precise_sleep(philo->data->time_die);
 	}
+	if (philo->id % 2 == 0)
+    	usleep(1000);
 	while (is_run(philo->data))
 	{
-		time_left = philo->data->time_die - (timestamp_ms() - get_last_meal(philo));
-    	if (time_left > philo->data->time_eat + 10)
-		{
-        	usleep(10);
-		}
 		print_state("is thinking", philo);
 		if (philo->id % 2 == 0)
 			routine_even(philo);
