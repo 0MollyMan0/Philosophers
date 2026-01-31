@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 11:10:30 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/30 14:23:49 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/31 11:45:08 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	is_run(t_data *data)
 static void	clean_data(t_data *d)
 {
 	long	i;
-	
+
 	if (d->fork_mutex)
 	{
 		i = 0;
@@ -88,8 +88,9 @@ void	clean_exit(t_data *d, pthread_t *t, t_philo *p, t_monitor *m)
 	long	i;
 	long	n;
 
-	n = d ? d->nb_philo : 0;
-
+	n = 0;
+	if (d)
+		n = d->nb_philo;
 	if (p)
 	{
 		i = 0;

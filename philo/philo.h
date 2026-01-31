@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 09:19:52 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/30 15:16:16 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:54:48 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_data
 	long			must_eat;
 	long			is_running;
 	long			nb_eat;
+	long			start;
 	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	run_mutex;

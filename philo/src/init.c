@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 09:37:47 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/30 14:22:30 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/31 11:45:45 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,22 @@ void	init_data(t_data *data, int ac, char **av)
 void	init_philos(pthread_t *threads, t_philo *philo, t_data *data)
 {
 	int		i;
-	long	start;
 
 	i = 0;
-	start = timestamp_ms();
+	data->start = timestamp_ms();
 	while (i < data->nb_philo)
 	{
 		philo[i].id = i + 1;
 		philo[i].data = data;
 		philo[i].nb_meal = 0;
-		philo[i].last_meal = start;
+		philo[i].last_meal = data->start;
 		pthread_mutex_init(&philo[i].meal_mutex, NULL);
 		pthread_mutex_init(&philo[i].nb_meal_mutex, NULL);
 		philo[i].fork_l = &data->fork_mutex[i];
 		if (i + 1 == data->nb_philo)
 			philo[i].fork_r = &data->fork_mutex[0];
 		else
-			philo[i].fork_r = &data->fork_mutex[i + 1];	
+			philo[i].fork_r = &data->fork_mutex[i + 1];
 		pthread_create(&threads[i], NULL, routine_philo, &philo[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 08:39:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/30 15:15:48 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/01/31 11:46:26 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static void	routine_odd(t_philo *philo)
 
 static void	routine_even(t_philo *philo)
 {
+	usleep(100);
 	while (!can_i_eat(philo->data))
 		usleep(100);
 	pthread_mutex_lock(philo->fork_l);
@@ -87,8 +88,6 @@ void	*routine_philo(void *arg)
 		print_state("has taken a fork", philo);
 		precise_sleep(philo->data->time_die);
 	}
-	if (philo->id % 2 == 0)
-    	usleep(1000);
 	while (is_run(philo->data))
 	{
 		print_state("is thinking", philo);
