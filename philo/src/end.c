@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 11:10:30 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/31 11:45:08 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:58:48 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	is_philo_full(t_philo *philo, t_data *data)
 	int	full;
 
 	full = 0;
-	pthread_mutex_lock(&philo->nb_meal_mutex);
+	pthread_mutex_lock(&philo->meal_mutex);
 	if (data->must_eat != -1 && philo->nb_meal >= data->must_eat)
 		full = 1;
-	pthread_mutex_unlock(&philo->nb_meal_mutex);
+	pthread_mutex_unlock(&philo->meal_mutex);
 	return (full);
 }
 
@@ -30,16 +30,16 @@ int	is_philos_full(t_philo *philo, t_data *data)
 
 	if (data->must_eat == -1)
 		return (0);
-	i = 1;
-	while (i <= data->nb_philo)
+	i = 0;
+	while (i < data->nb_philo)
 	{
-		pthread_mutex_lock(&philo[i].nb_meal_mutex);
+		pthread_mutex_lock(&philo[i].meal_mutex);
 		if (philo[i].nb_meal < data->must_eat)
 		{
-			pthread_mutex_unlock(&philo[i].nb_meal_mutex);
+			pthread_mutex_unlock(&philo[i].meal_mutex);
 			return (0);
 		}
-		pthread_mutex_unlock(&philo[i].nb_meal_mutex);
+		pthread_mutex_unlock(&philo[i].meal_mutex);
 		i++;
 	}
 	pthread_mutex_lock(&data->run_mutex);
@@ -97,7 +97,6 @@ void	clean_exit(t_data *d, pthread_t *t, t_philo *p, t_monitor *m)
 		while (i < n)
 		{
 			pthread_mutex_destroy(&p[i].meal_mutex);
-			pthread_mutex_destroy(&p[i].nb_meal_mutex);
 			i++;
 		}
 		free(p);

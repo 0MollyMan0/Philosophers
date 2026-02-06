@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 08:39:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/01/31 11:46:26 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:59:19 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static void	routine_odd(t_philo *philo)
 	pthread_mutex_lock(philo->fork_r);
 	print_state("has taken a fork", philo);
 	pthread_mutex_lock(philo->fork_l);
-	pthread_mutex_lock(&philo->meal_mutex);
 	print_state("is eating", philo);
+	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = timestamp_ms();
 	philo->nb_meal++;
 	pthread_mutex_unlock(&philo->meal_mutex);
@@ -67,8 +67,8 @@ static void	routine_even(t_philo *philo)
 	pthread_mutex_lock(philo->fork_l);
 	print_state("has taken a fork", philo);
 	pthread_mutex_lock(philo->fork_r);
-	pthread_mutex_lock(&philo->meal_mutex);
 	print_state("is eating", philo);
+	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = timestamp_ms();
 	philo->nb_meal++;
 	pthread_mutex_unlock(&philo->meal_mutex);
