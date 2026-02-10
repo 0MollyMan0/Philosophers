@@ -6,7 +6,7 @@
 /*   By: anfouger <anfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 08:39:20 by anfouger          #+#    #+#             */
-/*   Updated: 2026/02/06 11:59:19 by anfouger         ###   ########.fr       */
+/*   Updated: 2026/02/10 07:54:44 by anfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	*routine_philo(void *arg)
 	{
 		print_state("has taken a fork", philo);
 		precise_sleep(philo->data->time_die);
+		return (NULL);
 	}
 	while (is_run(philo->data))
 	{
